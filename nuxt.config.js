@@ -40,12 +40,19 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/buefy
     'nuxt-buefy',
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios'
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  /*
+  ** Axios module configuration
+  ** See https://axios.nuxtjs.org/options
+  */
+  axios: {
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

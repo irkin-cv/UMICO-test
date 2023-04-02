@@ -1,53 +1,45 @@
 <template>
   <section class="section">
-    <div class="columns is-mobile">
-      <card
-        title="Free"
-        icon="github"
-      >
-        Open source on <a href="https://github.com/buefy/buefy">
-          GitHub
-        </a>
-      </card>
+    <h1 class="has-text-centered">
+      Поиск игроков
+    </h1>
 
-      <card
-        title="Responsive"
-        icon="cellphone-link"
-      >
-        <b class="has-text-grey">
-          Every
-        </b> component is responsive
-      </card>
+    <search @search="getResults" />
 
-      <card
-        title="Modern"
-        icon="alert-decagram"
-      >
-        Built with <a href="https://vuejs.org/">
-          Vue.js
-        </a> and <a href="http://bulma.io/">
-          Bulma
-        </a>
-      </card>
-
-      <card
-        title="Lightweight"
-        icon="arrange-bring-to-front"
-      >
-        No other internal dependency
-      </card>
-    </div>
+    <results v-if="resultsData.length > 0" :data="resultsData" />
   </section>
 </template>
 
 <script>
-import Card from '~/components/Card'
+import Search from '@/components/Search'
+import Results from '@/components/TableResults'
+import { SEARCH_ROUTE } from '@/enums/routes'
 
 export default {
   name: 'HomePage',
 
   components: {
-    Card
+    Search,
+    Results
+  },
+  data () {
+    return {
+      resultsData: []
+    }
+  },
+  methods: {
+    getResults (searchWord) {
+      this.$axios.get(SEARCH_ROUTE.replace(':search_word', searchWord))
+        .then((data) => {
+          this.resultsData = data.data.data
+        })
+    }
   }
 }
 </script>
+
+<style>
+h1 {
+  text-transform: uppercase;
+}
+</style>
